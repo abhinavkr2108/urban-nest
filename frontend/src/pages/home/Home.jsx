@@ -1,5 +1,10 @@
 import React from "react";
+import Landing from "./components/Landing";
 
 export default function Home() {
-  return <div>Home</div>;
+  return (
+    <>
+      <Landing />
+    </>
+  );
 }
