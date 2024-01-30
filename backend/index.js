@@ -1,7 +1,20 @@
 import express, { urlencoded } from "express";
-const app = express();
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-// const mongoose = require("mongoose");
+dotenv.config();
+
+mongoose
+  .connect(process.env.MONGO_URL)
+  .then(() => {
+    console.log("database connected");
+  })
+  .catch((err) => {
+    console.error(err);
+    console.log(process.env.MONGO_URL);
+  });
+
+const app = express();
 
 app.use(express.json());
 
