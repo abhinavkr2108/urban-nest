@@ -26,6 +26,16 @@ app.use(urlencoded({ extended: true }));
 app.use("/api/user", userRoute);
 app.use("/api/auth", authRoute);
 
+app.use((error, req, res, next) => {
+  const status = error.status || 500;
+  const message = error.message || "Something went wrong";
+  return res.status(status).json({
+    success: false,
+    message: message,
+    status: status,
+  });
+});
+
 app.listen(5000, () => {
   console.log("server is running on port 5000");
 });
