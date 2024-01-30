@@ -3,8 +3,13 @@ import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
 
 export async function signUp(req, res, next) {
-  const { username, email, password } = req.body;
-  const hashedPassword = await bcryptjs.hashSync(password, 10);
+  const { username, email, password, cpassword } = req.body;
+  if (password !== cpassword) {
+    return next(
+      errorHandler(400, "Password and Confirm password do not match")
+    );
+  }
+  const hashedPassword = bcryptjs.hashSync(password, 10);
   const newUser = new User({
     username,
     email,

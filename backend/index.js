@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRoute from "./routes/user.route.js";
 import authRoute from "./routes/auth.route.js";
+import cors from "cors";
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ mongoose
   });
 
 const app = express();
+app.use(cors({ origin: "*" }, { credentials: true }));
 
 // Allow json to server
 app.use(express.json());

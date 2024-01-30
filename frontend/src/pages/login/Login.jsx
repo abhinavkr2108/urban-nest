@@ -22,8 +22,9 @@ export default function Login() {
           Login Into Your Existing Account
         </Text>
         <form className="w-full flex flex-col gap-3 items-center justify-center">
-          <Input placeholder="Email" bgColor={"white"} w={"50%"} />
+          <Input placeholder="Email" bgColor={"white"} w={"50%"} id="email" />
           <Input
+            id="password"
             placeholder="Password"
             bgColor={"white"}
             w={"50%"}
