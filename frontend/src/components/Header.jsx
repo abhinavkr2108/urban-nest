@@ -105,7 +105,7 @@ export default function Header() {
                     cursor={"pointer"}
                     w="full"
                   >
-                    <ListItem _hover={{ bgColor: "gray.100" }}>
+                    <ListItem _hover={{ bgColor: "gray.100" }} w={"full"}>
                       <Link to={"/"}>Home</Link>
                     </ListItem>
                     <ListItem _hover={{ bgColor: "gray.100" }}>
