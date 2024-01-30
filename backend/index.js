@@ -1,6 +1,8 @@
 import express, { urlencoded } from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import userRoute from "./routes/user.route.js";
+import authRoute from "./routes/auth.route.js";
 
 dotenv.config();
 
@@ -16,9 +18,13 @@ mongoose
 
 const app = express();
 
+// Allow json to server
 app.use(express.json());
 
 app.use(urlencoded({ extended: true }));
+
+app.use("/api/user", userRoute);
+app.use("/api/auth", authRoute);
 
 app.listen(5000, () => {
   console.log("server is running on port 5000");
