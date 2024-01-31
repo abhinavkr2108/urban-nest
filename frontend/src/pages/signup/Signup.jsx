@@ -89,7 +89,7 @@ export default function Signup() {
         className="h-screen flex flex-col items-center justify-center gap-3"
       >
         <Heading className="text-slate-700 font-bold">Signup</Heading>
-        <Text className="text-slate-500 text-[18px] font-bold">
+        <Text className="text-slate-500 text-[18px] font-bold text-center">
           Create a new account to browse and post listings
         </Text>
         {error && (
@@ -104,21 +104,21 @@ export default function Signup() {
             id="username"
             placeholder="Name"
             bgColor={"white"}
-            w={"50%"}
+            w={{ base: "80%", md: "50%" }}
             onChange={(e) => handleInputChange(e)}
           />
           <Input
             id="email"
             placeholder="Email"
             bgColor={"white"}
-            w={"50%"}
+            w={{ base: "80%", md: "50%" }}
             onChange={(e) => handleInputChange(e)}
           />
           <Input
             id="password"
             placeholder="Password"
             bgColor={"white"}
-            w={"50%"}
+            w={{ base: "80%", md: "50%" }}
             type="password"
             onChange={(e) => handleInputChange(e)}
           />
@@ -126,13 +126,13 @@ export default function Signup() {
             id="cpassword"
             placeholder="Confirm Password"
             bgColor={"white"}
-            w={"50%"}
+            w={{ base: "80%", md: "50%" }}
             type="password"
             onChange={(e) => handleInputChange(e)}
           />
           <Button
             colorScheme={"blue"}
-            w={"50%"}
+            w={{ base: "80%", md: "50%" }}
             type="submit"
             isLoading={loading}
           >

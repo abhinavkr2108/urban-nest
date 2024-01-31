@@ -11,19 +11,31 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AlertToast from "../../components/AlertToast";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  loginStart,
+  loginSuccess,
+  loginFailure,
+  logout,
+} from "../../redux/user/UserSlice.jsx";
 
 export default function Login() {
+  //State Variables
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState("");
+  // const [loading, setLoading] = useState(false);
+  const { loading, error } = useSelector((state) => state.user);
 
+  // Hooks
   const navigate = useNavigate();
   const toast = useToast();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     console.log(formData);
   }, [formData]);
 
+  //Functions
   const handleInputChange = async (e) => {
     setFormData({
       ...formData,
@@ -33,7 +45,7 @@ export default function Login() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    dispatch(loginStart());
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/auth/login`,
@@ -46,7 +58,7 @@ export default function Login() {
       );
       const data = await response.data;
       console.log(data);
-      setError("");
+      dispatch(loginSuccess(data));
       toast({
         title: "Success",
         description: "Login Success",
@@ -55,15 +67,14 @@ export default function Login() {
         position: "top",
         isClosable: true,
       });
+      navigate("/");
     } catch (error) {
       console.log(error);
-      setError(
-        error.response.data.message
-          ? error.response.data.message
-          : error.message
+      dispatch(
+        loginFailure(
+          error.response.data.message || error.message || "Login Failed! "
+        )
       );
-    } finally {
-      setLoading(false);
     }
   };
   return (
@@ -87,7 +98,7 @@ export default function Login() {
           <Input
             placeholder="Email"
             bgColor={"white"}
-            w={"50%"}
+            w={{ base: "80%", md: "50%" }}
             id="email"
             onChange={(e) => handleInputChange(e)}
           />
@@ -95,11 +106,16 @@ export default function Login() {
             id="password"
             placeholder="Password"
             bgColor={"white"}
-            w={"50%"}
+            w={{ base: "80%", md: "50%" }}
             type="password"
             onChange={(e) => handleInputChange(e)}
           />
-          <Button colorScheme={"blue"} w={"50%"} type="submit">
+          <Button
+            colorScheme={"blue"}
+            w={{ base: "80%", md: "50%" }}
+            type="submit"
+            isLoading={loading}
+          >
             Login
           </Button>
         </form>
