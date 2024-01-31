@@ -47,3 +47,40 @@ export async function login(req, res, next) {
     .status(200)
     .json(userResponse);
 }
+
+export async function google(req, res, next) {
+  const { username, email, photo } = req.body;
+  const user = await User.findOne({ email });
+  const returnUser = await User.findOne({ email }).select("-password");
+  if (user) {
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+      })
+      .status(200)
+      .json(returnUser);
+  } else {
+    const randomPassword = Math.random().toString(36).slice(-8);
+    const hashedPassword = bcryptjs.hashSync(randomPassword, 10);
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPassword,
+      avatar: photo,
+    });
+    await newUser.save();
+    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
+    const returnNewUser = await User.findOne({ email }).select("-password");
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+      })
+      .status(200)
+      .json(returnNewUser);
+  }
+  try {
+  } catch (error) {
+    next(error);
+  }
+}

@@ -18,6 +18,7 @@ import {
   loginFailure,
   logout,
 } from "../../redux/user/UserSlice.jsx";
+import GoogleAuth from "../../components/GoogleAuth.jsx";
 
 export default function Login() {
   //State Variables
@@ -118,6 +119,7 @@ export default function Login() {
           >
             Login
           </Button>
+          <GoogleAuth />
         </form>
         <Text className="text-slate-500 text-[18px] font-bold">
           Don't have an account?{" "}

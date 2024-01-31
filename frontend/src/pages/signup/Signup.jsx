@@ -11,6 +11,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios, { isCancel, AxiosError } from "axios";
 import AlertToast from "../../components/AlertToast";
+import GoogleAuth from "../../components/GoogleAuth";
 
 export default function Signup() {
   //state variables
@@ -32,16 +33,6 @@ export default function Signup() {
       [e.target.id]: e.target.value,
     });
     // console.log(formData);
-  };
-
-  const showToast = () => {
-    return (
-      <AlertToast
-        title="Success"
-        description="Account created successfully"
-        status="success"
-      />
-    );
   };
 
   const handleSubmit = async (e) => {
@@ -138,6 +129,7 @@ export default function Signup() {
           >
             Create New Account
           </Button>
+          <GoogleAuth />
         </form>
         <Text className="text-slate-500 text-[18px] font-bold">
           Already have an account?{" "}
