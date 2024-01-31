@@ -7,7 +7,9 @@ import Signout from "./pages/signout/Signout";
 import Header from "./components/Header";
 import About from "./pages/about/About";
 import Discover from "./pages/discover/Discover";
+import Profile from "./pages/profile/Profile";
 import { Box } from "@chakra-ui/react";
+import Private from "./pages/private/Private";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -23,6 +25,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signout" element={<Signout />} />
+          <Route element={<Private />}>
+            <Route path="/profile" element={<Profile />} />
+          </Route>
         </Routes>
       </Box>
     </BrowserRouter>
