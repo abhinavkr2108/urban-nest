@@ -67,8 +67,10 @@ export default function Header() {
           <HStack spacing={3}>
             <Link to={"/"}>Home</Link>
             <Link to={"/about"}>About</Link>
+            <Link to={"/listings"}>Listings</Link>
             {currentUser ? (
               <>
+                <Link to={"/create-listing"}>Create Listing</Link>
                 <Popover>
                   <PopoverTrigger>
                     <Avatar
@@ -98,7 +100,7 @@ export default function Header() {
                         </ListItem>
                         <ListItem>
                           <Link
-                            to={"/logout"}
+                            to={"/signout"}
                             className="text-red-500 w-full block font-semibold hover:bg-gray-100"
                           >
                             Logout
@@ -175,7 +177,15 @@ export default function Header() {
                         About
                       </Link>
                     </ListItem>
-                    {currentUser ? (
+                    <ListItem>
+                      <Link
+                        to={"/listings"}
+                        className="w-full block hover:bg-gray-100"
+                      >
+                        Listings
+                      </Link>
+                    </ListItem>
+                    {!currentUser ? (
                       <>
                         <ListItem>
                           <Link
@@ -194,19 +204,35 @@ export default function Header() {
                           </Link>
                         </ListItem>
                       </>
-                    ) : null}
+                    ) : (
+                      <ListItem>
+                        <Link
+                          to={"/create-listing"}
+                          className="w-full block hover:bg-gray-100"
+                        >
+                          Create Listing
+                        </Link>
+                      </ListItem>
+                    )}
                   </List>
                 </DrawerBody>
                 <DrawerFooter>
                   {currentUser ? (
-                    <>
-                      <Button variant={"outline"} colorScheme="red" mr={3}>
-                        Logout
-                      </Button>
+                    <Box onClick={onClose}>
+                      <Link to={"/signout"}>
+                        <Button
+                          variant={"outline"}
+                          colorScheme="red"
+                          mr={3}
+                          onClick={onClose}
+                        >
+                          Logout
+                        </Button>
+                      </Link>
                       <Link to={"/profile"}>
                         <Button colorScheme="blue">View Profile</Button>
                       </Link>
-                    </>
+                    </Box>
                   ) : null}
                 </DrawerFooter>
               </DrawerContent>

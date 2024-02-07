@@ -10,6 +10,8 @@ import Discover from "./pages/discover/Discover";
 import Profile from "./pages/profile/Profile";
 import { Box } from "@chakra-ui/react";
 import Private from "./pages/private/Private";
+import Listings from "./pages/listings/Listings";
+import CreateListing from "./pages/createlisting/CreateListing";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -22,11 +24,13 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/discover" element={<Discover />} />
+          <Route path="/listings" element={<Listings />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signout" element={<Signout />} />
           <Route element={<Private />}>
             <Route path="/profile" element={<Profile />} />
+            <Route path="/create-listing" element={<CreateListing />} />
           </Route>
         </Routes>
       </Box>
