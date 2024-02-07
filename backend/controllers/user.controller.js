@@ -1,3 +1,47 @@
+import bcryptjs from "bcryptjs";
+import User from "../models/user.model.js";
+import { errorHandler } from "../utils/error.js";
+import jwt from "jsonwebtoken";
 export function test(req, res) {
   res.json({ message: "Hello World Message Changed" });
 }
+
+export async function updateUser(req, res, next) {
+  const { username, email, newPassword, cnewpassword } = req.body;
+  console.log(req.body);
+  if (newPassword !== cnewpassword) {
+    return next(
+      errorHandler(400, "Password and Confirm password do not match")
+    );
+  }
+
+  if (req.user.id !== req.params.id)
+    return next(errorHandler(401, "You can only update your own account!"));
+  try {
+    const updatePassword = bcryptjs.hashSync(newPassword, 10);
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          username: username,
+          email: email,
+          password: updatePassword,
+          avatar: req.body.avatar,
+        },
+      },
+      { new: true }
+    );
+    console.log(updatedUser);
+    const token = jwt.sign({ id: updatedUser._id }, process.env.JWT_SECRET);
+    console.log("TOKEN ", token);
+
+    const { password, ...rest } = updatedUser._doc;
+
+    res.status(200).json({ user: rest, token: token });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function deleteUser(req, res, next) {}

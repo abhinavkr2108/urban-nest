@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import userRoute from "./routes/user.route.js";
 import authRoute from "./routes/auth.route.js";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -18,12 +19,13 @@ mongoose
   });
 
 const app = express();
-app.use(cors({ origin: "*" }, { credentials: true }));
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
 // Allow json to server
 app.use(express.json());
 
 app.use(urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use("/api/user", userRoute);
 app.use("/api/auth", authRoute);

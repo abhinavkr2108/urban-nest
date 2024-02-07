@@ -40,12 +40,13 @@ export async function login(req, res, next) {
   }
 
   const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
+  console.log("TOKEN ", token);
   res
-    .cookie("token", token, {
-      httpOnly: true,
-    })
+    // .cookie("jwt", token, {
+    //   httpOnly: true,
+    // })
     .status(200)
-    .json(userResponse);
+    .json({ user: userResponse, token: token });
 }
 
 export async function google(req, res, next) {
@@ -73,7 +74,7 @@ export async function google(req, res, next) {
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
     const returnNewUser = await User.findOne({ email }).select("-password");
     res
-      .cookie("token", token, {
+      .cookie("jwt", token, {
         httpOnly: true,
       })
       .status(200)
