@@ -20,6 +20,9 @@ import {
   loginSuccess,
   updateUserSuccess,
   updateUserFailure,
+  deleteUserFailure,
+  deleteUserStart,
+  deleteUserSuccess,
 } from "../../redux/user/UserSlice.jsx";
 import { useDispatch } from "react-redux";
 
@@ -56,6 +59,8 @@ export default function Profile() {
       setUsername(currentUser.user.username);
       setEmail(currentUser.user.email);
       setAvatar(currentUser.user.avatar);
+      console.log("TOKEN");
+      console.log(currentUser.token);
     }
   }, [currentUser]);
 
@@ -129,6 +134,40 @@ export default function Profile() {
       );
     }
   };
+  const deleteUser = async () => {
+    const data = {
+      username: username,
+      email: email,
+      newPassword: newPassword,
+      cnewpassword: confirmPassword,
+      avatar: avatar,
+      token: currentUser.token,
+    };
+    try {
+      dispatch(deleteUserStart());
+      const response = await axios.delete(
+        `http://localhost:5000/api/user/delete/${currentUser.user._id}`,
+
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          data: data,
+        }
+      );
+
+      dispatch(deleteUserSuccess());
+      window.location.reload();
+    } catch (error) {
+      dispatch(
+        deleteUserFailure(
+          error.response.data.message ||
+            error.message ||
+            "Cannot delete account"
+        )
+      );
+    }
+  };
 
   return (
     <div className="h-screen w-full flex flex-col gap-3 items-center justify-center">
@@ -173,7 +212,7 @@ export default function Profile() {
           placeholder="Name"
           value={username}
           bgColor={"white"}
-          w={{ base: "80%", md: "50%" }}
+          w={{ base: "80%", md: "40%" }}
           onChange={(e) => setUsername(e.target.value)}
         />
         <Input
@@ -181,7 +220,7 @@ export default function Profile() {
           placeholder="Email"
           value={email}
           bgColor={"white"}
-          w={{ base: "80%", md: "50%" }}
+          w={{ base: "80%", md: "40%" }}
           onChange={(e) => setUsername(e.target.value)}
         />
         {/* <Input
@@ -197,7 +236,7 @@ export default function Profile() {
           id="newpassword"
           placeholder="New Password"
           bgColor={"white"}
-          w={{ base: "80%", md: "50%" }}
+          w={{ base: "80%", md: "40%" }}
           type="password"
           onChange={(e) => setNewPassword(e.target.value)}
           value={newPassword}
@@ -206,7 +245,7 @@ export default function Profile() {
           id="cnewpassword"
           placeholder="Confirm New Password"
           bgColor={"white"}
-          w={{ base: "80%", md: "50%" }}
+          w={{ base: "80%", md: "40%" }}
           type="password"
           onChange={(e) => setConfirmPassword(e.target.value)}
           value={confirmPassword}
@@ -214,17 +253,18 @@ export default function Profile() {
 
         <Button
           colorScheme={"blue"}
-          w={{ base: "80%", md: "50%" }}
+          w={{ base: "80%", md: "40%" }}
           type="submit"
-          //   isLoading={loading}
+          isLoading={loading}
         >
           Update Account
         </Button>
         <Button
           colorScheme={"red"}
-          w={{ base: "80%", md: "50%" }}
+          w={{ base: "80%", md: "40%" }}
           type="submit"
-          //   isLoading={loading}
+          isLoading={loading}
+          onClick={deleteUser}
         >
           Delete Account
         </Button>

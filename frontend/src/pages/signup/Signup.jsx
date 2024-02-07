@@ -95,21 +95,21 @@ export default function Signup() {
             id="username"
             placeholder="Name"
             bgColor={"white"}
-            w={{ base: "80%", md: "50%" }}
+            w={{ base: "80%", md: "40%" }}
             onChange={(e) => handleInputChange(e)}
           />
           <Input
             id="email"
             placeholder="Email"
             bgColor={"white"}
-            w={{ base: "80%", md: "50%" }}
+            w={{ base: "80%", md: "40%" }}
             onChange={(e) => handleInputChange(e)}
           />
           <Input
             id="password"
             placeholder="Password"
             bgColor={"white"}
-            w={{ base: "80%", md: "50%" }}
+            w={{ base: "80%", md: "40%" }}
             type="password"
             onChange={(e) => handleInputChange(e)}
           />
@@ -117,7 +117,7 @@ export default function Signup() {
             id="cpassword"
             placeholder="Confirm Password"
             bgColor={"white"}
-            w={{ base: "80%", md: "50%" }}
+            w={{ base: "80%", md: "40%" }}
             type="password"
             onChange={(e) => handleInputChange(e)}
           />
