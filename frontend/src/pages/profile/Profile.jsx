@@ -104,7 +104,9 @@ export default function Profile() {
     try {
       dispatch(updateUserStart());
       const response = await axios.post(
-        `http://localhost:5000/api/user/update/${currentUser.user._id}`,
+        `${import.meta.env.VITE_BACKEND_USER_URL}/update/${
+          currentUser.user._id
+        }`,
         data,
         {
           headers: {
@@ -146,7 +148,9 @@ export default function Profile() {
     try {
       dispatch(deleteUserStart());
       const response = await axios.delete(
-        `http://localhost:5000/api/user/delete/${currentUser.user._id}`,
+        `${import.meta.env.VITE_BACKEND_USER_URL}/delete/${
+          currentUser.user._id
+        }`,
 
         {
           headers: {

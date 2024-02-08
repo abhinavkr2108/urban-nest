@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRoute from "./routes/user.route.js";
 import authRoute from "./routes/auth.route.js";
+import listingRoute from "./routes/listings.route.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
@@ -29,6 +30,7 @@ app.use(cookieParser());
 
 app.use("/api/user", userRoute);
 app.use("/api/auth", authRoute);
+app.use("/api/listings", listingRoute);
 
 app.use((error, req, res, next) => {
   const status = error.status || 500;
