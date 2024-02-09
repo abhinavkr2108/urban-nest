@@ -2,6 +2,7 @@ import bcryptjs from "bcryptjs";
 import User from "../models/user.model.js";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
+import Listing from "../models/listings.model.js";
 export function test(req, res) {
   res.json({ message: "Hello World Message Changed" });
 }
@@ -50,6 +51,26 @@ export async function deleteUser(req, res, next) {
   try {
     await User.findByIdAndDelete(req.params.id);
     res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    next(error);
+  }
+}
+/**
+ * Retrieves a list of user listings.
+ *
+ * @param {Object} req - the request object
+ * @param {Object} res - the response object
+ * @param {Function} next - the next middleware function
+ * @return {Promise} a promise representing the asynchronous operation
+ */
+export async function getUserListings(req, res, next) {
+  // if (req.user.id !== req.params.id) {
+  //   return next(errorHandler(401, "You can only view your own listings!"));
+  // }
+  try {
+    const user = await User.findById(req.params.id);
+    const listings = await Listing.find({ userRef: req.params.id });
+    res.status(200).json(listings);
   } catch (error) {
     next(error);
   }

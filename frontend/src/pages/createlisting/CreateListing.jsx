@@ -50,6 +50,7 @@ export default function CreateListing() {
   });
   const [error, setError] = useState("");
   const [listingError, setListingError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const toast = useToast();
 
@@ -175,8 +176,22 @@ export default function CreateListing() {
     };
 
     try {
+      if (
+        formData.name === "" ||
+        formData.description === "" ||
+        formData.price === "" ||
+        formData.address === "" ||
+        formData.imageUrls.length === 0
+      ) {
+        setListingError("Please fill in all required fields");
+        return;
+      }
+      if (formData.imageUrls.length === 0) {
+        setListingError("Please upload at least one image");
+      }
+      setLoading(true);
       const response = await axios.post(
-        "http://localhost:5000/api/listings/create",
+        `${import.meta.env.VITE_BACKEND_URL}/listings/create`,
         data
       );
       console.log(response);
@@ -186,9 +201,17 @@ export default function CreateListing() {
         duration: 3000,
         isClosable: true,
       });
+      setLoading(false);
+      setListingError("");
     } catch (error) {
       console.error(error);
-      setListingError("An error occurred while creating the listing");
+      setListingError(
+        error.response?.data?.message ||
+          error.message ||
+          "An error occurred while creating the listing"
+      );
+
+      setLoading(false);
     }
   };
   return (
@@ -196,9 +219,17 @@ export default function CreateListing() {
       <Heading size={"lg"} textAlign={"center"}>
         Create Listing
       </Heading>
+
       <Container maxW={"6xl"} m={"auto"} className={"h-full pt-5"}>
         <>
-          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8}>
+          {listingError && (
+            <AlertToast
+              title="Error"
+              description={listingError}
+              status="error"
+            />
+          )}
+          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8} mt={5}>
             <form className="flex flex-col gap-4">
               <Input
                 id="name"
@@ -372,7 +403,13 @@ export default function CreateListing() {
                 </div>
               )}
 
-              <Button colorScheme="blue" w={"full"} mt={5} type="submit">
+              <Button
+                colorScheme="blue"
+                w={"full"}
+                mt={5}
+                type="submit"
+                isLoading={loading}
+              >
                 Create Listing
               </Button>
             </form>

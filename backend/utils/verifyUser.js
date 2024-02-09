@@ -16,6 +16,7 @@ export async function verifyUserToken(req, res, next) {
       return next(errorHandler(401, "Please login to access this resource"));
     }
     req.user = user;
+    console.log("USER: ", user);
     next();
   });
 }

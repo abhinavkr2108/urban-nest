@@ -12,6 +12,7 @@ import { Box } from "@chakra-ui/react";
 import Private from "./pages/private/Private";
 import Listings from "./pages/listings/Listings";
 import CreateListing from "./pages/createlisting/CreateListing";
+import UserListings from "./pages/userListings/UserListings";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -31,6 +32,7 @@ function App() {
           <Route element={<Private />}>
             <Route path="/profile" element={<Profile />} />
             <Route path="/create-listing" element={<CreateListing />} />
+            <Route path="/listing/:id" element={<UserListings />} />
           </Route>
         </Routes>
       </Box>

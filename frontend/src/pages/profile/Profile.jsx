@@ -28,12 +28,14 @@ import { useDispatch } from "react-redux";
 
 import axios from "axios";
 import AlertToast from "../../components/AlertToast.jsx";
+import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
   const { currentUser, loading, error } = useSelector((state) => state.user);
   console.log(currentUser);
   const dispatch = useDispatch();
   const toast = useToast();
+  const navigate = useNavigate();
 
   //   const [name, setName] = useState();
   const [username, setUsername] = useState("");
@@ -203,7 +205,11 @@ export default function Profile() {
         {currentUser?.user.username}
       </Heading>
       {error && <AlertToast title="Error" description={error} status="error" />}
-      <Button variant={"ghost"} colorScheme="blue">
+      <Button
+        variant={"ghost"}
+        colorScheme="blue"
+        onClick={() => navigate(`/listing/${currentUser.user._id}`)}
+      >
         {" "}
         View Listings
       </Button>
