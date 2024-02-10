@@ -55,7 +55,7 @@ export default function UserListings() {
       )}
       {listings.map((listing) => {
         return (
-          <div>
+          <div key={listing._id}>
             <ListingCard listing={listing} />
           </div>
         );

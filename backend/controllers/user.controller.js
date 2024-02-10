@@ -75,3 +75,26 @@ export async function getUserListings(req, res, next) {
     next(error);
   }
 }
+
+/**
+ * Deletes a user listing if the user owns it.
+ *
+ * @param {Object} req - the request object
+ * @param {Object} res - the response object
+ * @param {Function} next - the next middleware function
+ * @return {Promise<void>} Promise that resolves when the listing is deleted
+ */
+export async function deleteUserListing(req, res, next) {
+  const listing = await Listing.findById(req.params.id);
+  if (listing.userRef.toString() !== req.user.id) {
+    return next(errorHandler(401, "You can only delete your own listings!"));
+  }
+  if (!listing) {
+    return next(errorHandler(404, "Listing not found"));
+  }
+  try {
+    await Listing.findByIdAndDelete(req.params.id);
+  } catch (error) {
+    next(error);
+  }
+}

@@ -13,6 +13,7 @@ import Private from "./pages/private/Private";
 import Listings from "./pages/listings/Listings";
 import CreateListing from "./pages/createlisting/CreateListing";
 import UserListings from "./pages/userListings/UserListings";
+import UpdateListing from "./pages/update/UpdateListing";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -33,6 +34,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/create-listing" element={<CreateListing />} />
             <Route path="/listing/:id" element={<UserListings />} />
+            <Route path="/update-listing/:id" element={<UpdateListing />} />
           </Route>
         </Routes>
       </Box>
