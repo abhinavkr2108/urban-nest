@@ -1,7 +1,9 @@
 import jwt from "jsonwebtoken";
 import { errorHandler } from "./error.js";
 export async function verifyUserToken(req, res, next) {
-  const token = req.body.token;
+  const token =
+    req.body.token || req.query.token || req.headers["x-access-token"];
+
   console.log("REQUEST BODY");
   console.log(req.body);
   // console.log("COOKIKIES ", req.cookies);

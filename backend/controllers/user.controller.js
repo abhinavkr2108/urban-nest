@@ -98,3 +98,16 @@ export async function deleteUserListing(req, res, next) {
     next(error);
   }
 }
+
+export async function getUser(req, res, next) {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return next(errorHandler(404, "User not found"));
+    }
+    const userInfo = await User.findById(req.params.id).select("-password");
+    res.status(200).json(userInfo);
+  } catch (error) {
+    next(error);
+  }
+}

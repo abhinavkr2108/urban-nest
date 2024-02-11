@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ListingCard from "./components/ListingCard";
+import AlertToast from "../../components/AlertToast";
 
 export default function UserListings() {
   const { currentUser } = useSelector((state) => state.user);

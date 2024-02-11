@@ -12,11 +12,14 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export default function ListingCard({ listing }) {
+  // useEffect(() => {
+  //   window.location.reload();
+  // }, [listing]);
   const { currentUser } = useSelector((state) => state.user);
   const toast = useToast();
   const navigate = useNavigate();
@@ -60,7 +63,13 @@ export default function ListingCard({ listing }) {
           </CardBody>
           <CardFooter>
             <HStack>
-              <Button variant="solid" colorScheme="blue">
+              <Button
+                variant="solid"
+                colorScheme="blue"
+                onClick={() => {
+                  navigate(`/listings/${listing._id}`);
+                }}
+              >
                 View Listing
               </Button>
               <Button
