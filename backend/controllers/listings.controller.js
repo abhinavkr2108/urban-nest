@@ -43,3 +43,41 @@ export async function getListing(req, res, next) {
     next(error);
   }
 }
+
+export async function searchListings(req, res, next) {
+  try {
+    const limit = parseInt(req.query.limit) || 9;
+    const startIndex = parseInt(req.query.startIndex) || 0;
+    const page = req.query.page || 1;
+
+    let furnished = req.query.furnished;
+    let parking = req.query.parking;
+    let type = req.query.type;
+    let searchTerm = req.query.searchTerm || "";
+    let sort = req.query.sort || "createdAt";
+    let order = req.query.order || "desc";
+
+    if (furnished === undefined || furnished === "" || furnished === "false") {
+      furnished = { $in: [false, true] };
+    }
+    if (parking === undefined || parking === "" || parking === "false") {
+      parking = { $in: [false, true] };
+    }
+    if (type === undefined || type === "" || type === "all") {
+      type = { $in: ["sale", "rent"] };
+    }
+
+    const listings = await Listing.find({
+      name: { $regex: searchTerm, $options: "i" },
+      type: type,
+      furnished: furnished,
+      parking: parking,
+    })
+      .sort({ [sort]: order })
+      .limit(limit)
+      .skip(startIndex);
+    res.status(200).json(listings);
+  } catch (error) {
+    next(error);
+  }
+}
