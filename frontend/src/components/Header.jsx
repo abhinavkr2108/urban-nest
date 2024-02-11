@@ -18,6 +18,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  InputRightElement,
   List,
   ListItem,
   Popover,
@@ -31,8 +32,8 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { IoMdSearch } from "react-icons/io";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useSelector } from "react-redux";
@@ -41,6 +42,26 @@ export default function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
   const { currentUser } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set("searchTerm", searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [location.search]);
+
   return (
     <header className="w-full h-14 bg-slate-400 z-20 shadow-md sticky top-0">
       <Container maxW={"8xl"} m={"auto"} className={"h-full"}>
@@ -55,14 +76,21 @@ export default function Header() {
             className="h-[100px] w-[100px]"
           />
           <Spacer />
-          <Box>
+          <form onSubmit={handleSubmit}>
             <InputGroup>
-              <InputLeftElement>
-                <IoMdSearch />
-              </InputLeftElement>
-              <Input placeholder="Search" backgroundColor={"gray.50"} />
+              <Input
+                placeholder="Search"
+                backgroundColor={"gray.50"}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                value={searchTerm}
+              />
+              <InputRightElement>
+                <button type="submit">
+                  <IoMdSearch />
+                </button>
+              </InputRightElement>
             </InputGroup>
-          </Box>
+          </form>
           <Spacer />
           <HStack spacing={3}>
             <Link to={"/"}>Home</Link>
@@ -151,12 +179,21 @@ export default function Header() {
                   </HStack>
                 </DrawerHeader>
                 <DrawerBody>
-                  <InputGroup>
-                    <InputLeftElement>
-                      <IoMdSearch />
-                    </InputLeftElement>
-                    <Input placeholder="Search" backgroundColor={"gray.50"} />
-                  </InputGroup>
+                  <form onSubmit={handleSubmit}>
+                    <InputGroup>
+                      <Input
+                        placeholder="Search"
+                        backgroundColor={"gray.50"}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        value={searchTerm}
+                      />
+                      <InputRightElement>
+                        <button type="submit">
+                          <IoMdSearch />
+                        </button>
+                      </InputRightElement>
+                    </InputGroup>
+                  </form>
                   <List
                     mt={5}
                     spacing={3}
