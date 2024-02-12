@@ -15,6 +15,7 @@ import CreateListing from "./pages/createlisting/CreateListing";
 import UserListings from "./pages/userListings/UserListings";
 import UpdateListing from "./pages/update/UpdateListing";
 import SingleListing from "./pages/listings/SingleListing";
+import Search from "./pages/search/Search";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -32,6 +33,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/signout" element={<Signout />} />
           <Route path="/listings/:id" element={<SingleListing />} />
+          <Route path="/search" element={<Search />} />
           <Route element={<Private />}>
             <Route path="/profile" element={<Profile />} />
             <Route path="/create-listing" element={<CreateListing />} />

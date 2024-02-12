@@ -46,7 +46,7 @@ export async function getListing(req, res, next) {
 
 export async function searchListings(req, res, next) {
   try {
-    const limit = parseInt(req.query.limit) || 9;
+    const limit = parseInt(req.query.limit) || 6;
     const startIndex = parseInt(req.query.startIndex) || 0;
     const page = req.query.page || 1;
 

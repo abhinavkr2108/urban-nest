@@ -95,7 +95,7 @@ export default function Header() {
           <HStack spacing={3}>
             <Link to={"/"}>Home</Link>
             <Link to={"/about"}>About</Link>
-            <Link to={"/listings"}>Listings</Link>
+
             {currentUser ? (
               <>
                 <Link to={"/create-listing"}>Create Listing</Link>
@@ -214,14 +214,7 @@ export default function Header() {
                         About
                       </Link>
                     </ListItem>
-                    <ListItem>
-                      <Link
-                        to={"/listings"}
-                        className="w-full block hover:bg-gray-100"
-                      >
-                        Listings
-                      </Link>
-                    </ListItem>
+
                     {!currentUser ? (
                       <>
                         <ListItem>

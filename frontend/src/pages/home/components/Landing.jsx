@@ -10,9 +10,11 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 /**<a href="https://www.freepik.com/free-ai-image/3d-rendering-isometric-house_62520711.htm#query=blue%20color%20real%20estate%20home%20design&position=35&from_view=search&track=ais&uuid=4218197b-4d75-46cc-a4a6-f6c5d8d845a9">Image By freepik</a> */
 export default function Landing() {
+  const navigate = useNavigate();
   return (
     <Box h={{ base: "100vh", md: "80vh" }} w={"full"} className="bg-indigo-100">
       <Container maxW={"8xl"} m={"auto"} h={"full"}>
@@ -45,9 +47,11 @@ export default function Landing() {
                 Urban Nest will help you find your next home fast and easy.
                 <br /> Our expert support is always availaible to help you.
               </Text>
-              <Button colorScheme={"blue"} variant={"solid"}>
-                Get Started Now
-              </Button>
+              <Link to="/listings">
+                <Button colorScheme={"blue"} variant={"solid"}>
+                  Get Started Now
+                </Button>
+              </Link>
             </VStack>
           </GridItem>
           <GridItem
