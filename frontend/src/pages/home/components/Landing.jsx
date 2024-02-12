@@ -47,11 +47,6 @@ export default function Landing() {
                 Urban Nest will help you find your next home fast and easy.
                 <br /> Our expert support is always availaible to help you.
               </Text>
-              <Link to="/listings">
-                <Button colorScheme={"blue"} variant={"solid"}>
-                  Get Started Now
-                </Button>
-              </Link>
             </VStack>
           </GridItem>
           <GridItem
