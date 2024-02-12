@@ -55,12 +55,7 @@ export async function google(req, res, next) {
   const returnUser = await User.findOne({ email }).select("-password");
   if (user) {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-    res
-      .cookie("token", token, {
-        httpOnly: true,
-      })
-      .status(200)
-      .json(returnUser);
+    res.status(200).json({ user: returnUser, token: token });
   } else {
     const randomPassword = Math.random().toString(36).slice(-8);
     const hashedPassword = bcryptjs.hashSync(randomPassword, 10);
@@ -73,12 +68,7 @@ export async function google(req, res, next) {
     await newUser.save();
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
     const returnNewUser = await User.findOne({ email }).select("-password");
-    res
-      .cookie("jwt", token, {
-        httpOnly: true,
-      })
-      .status(200)
-      .json(returnNewUser);
+    res.status(200).json({ user: returnNewUser, token: token });
   }
   try {
   } catch (error) {
